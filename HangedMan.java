@@ -4,19 +4,25 @@
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.util.Scanner;
 import java.util.ArrayList;
+import java.util.Scanner;
+import java.io.Reader;
+import java.io.InputStreamReader;
+import java.io.FileReader;
+import java.io.FileNotFoundException;
 
 public class HangedMan
 {
-  ArrayList wordBank = new ArrayList <String>();
-  public static void main (String [] args)
+  public static void main (String [] args) throws FileNotFoundException
   {
+    ArrayList wordBank = new ArrayList <String>();
     Dictionary D = new Dictionary();
+    D.makeDictionary();
     wordBank = D.getWordBank();
-    for (int i=0; i<wordBank.size(); i++)
+    System.out.println(D.getWord());
+    /*for (int i=0; i<wordBank.size(); i++)
     {
       System.out.println(wordBank.get(i));
-    }
+    }*/ 
   }
 }

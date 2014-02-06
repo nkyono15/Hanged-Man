@@ -6,27 +6,24 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.io.Reader;
+import java.io.InputStreamReader;
+import java.io.FileReader;
+import java.io.FileNotFoundException;
 
 public class Dictionary
 {
   ArrayList<String> wordBank = new ArrayList<String>();
   int marker = 0;
-  File dictionary = new File("/Users/nkyono15/Desktop/AP Comp Sci/Hanged-Man");
-  Scanner scanLine = new Scanner(System.in);
   
-  public void makeDictionary()
+  public void makeDictionary() throws FileNotFoundException
   {
-    String line = scanLine.nextLine();
-    wordBank.add(line);
-    makeRecursion(wordBank);
-  }
-  
-  private ArrayList makeRecursion(ArrayList <String> wordBank)
-  {
-    String line = scanLine.nextLine();
-    wordBank.add(line);
-    makeRecursion(wordBank);
-    return wordBank;
+    File dictionary = new File("/Users/nkyono15/Desktop/AP Comp Sci/Hanged-Man/Dictionary.txt");
+    Scanner scanLine = new Scanner(dictionary);
+    while (scanLine.hasNext())
+    {
+      wordBank.add(scanLine.nextLine());
+    }
   }
   
   public ArrayList getWordBank()
@@ -34,4 +31,9 @@ public class Dictionary
     return wordBank;
   }
   
+  public String getWord()
+  {
+    return (wordBank.get((int)(Math.random()*wordBank.size())));
+  }
+    
 }
