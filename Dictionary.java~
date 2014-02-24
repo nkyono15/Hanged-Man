@@ -5,14 +5,82 @@
 import java.io.BufferedReader;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Scanner;
+import java.io.Reader;
+import java.io.InputStreamReader;
+import java.io.FileReader;
+import java.io.FileNotFoundException;
 
 public class Dictionary
 {
+  ArrayList<String> wordBank = new ArrayList<String>();
+  int marker = 0;
   
-  public ArrayList makeDictionary()
+  
+  //method that takes the file and puts each line into an array
+  public void makeDictionary() throws FileNotFoundException
   {
-    File dictionary = new File("/Users/nkyono15/Desktop/AP Comp Sci/Hanged-Man");
-    
+    File dictionary = new File("/Users/nkyono15/Desktop/AP Comp Sci/Hanged-Man/Dictionary.txt");
+    Scanner scanLine = new Scanner(dictionary);
+    while (scanLine.hasNext())
+    {
+      wordBank.add(scanLine.nextLine());
+    }
   }
+  
+  
+  //simple method that returns the the array with words
+  public ArrayList getWordBank()
+  {
+    return wordBank;
+  }
+  
+  //gets a random word from the arrayList
+  public String getWord()
+  {
+    return (wordBank.get((int)(Math.random()*wordBank.size())));
+  }
+  
+  
+  //checks to see which words are the right length 
+  public ArrayList rightLength(int length)
+  {  
+    Player P = new Player();
+    
+    ArrayList <String> tempWordBank = new ArrayList <String> (wordBank);
+    for (int i = tempWordBank.size(); i > 0 ; i--)
+    {
+      if (tempWordBank.get(i-1).length() != length)
+      {
+        tempWordBank.remove(i-1);
+      }
+    }
+    
+    if (tempWordBank.size() == 0)
+    {
+      System.out.println("Invalid Word Length");
+      rightLength(P.wordLength());
+      System.out.println("Check #1");
+    }
+    else
+    {
+      for (int i = wordBank.size(); i > 0 ; i--)
+      {
+        if (wordBank.get(i-1).length() != length)
+        {
+          wordBank.remove(i-1);
+        }
+      }
+      if (wordBank.size() == 0)
+      {
+        System.out.println("Invalid Word Length");
+        rightLength(P.wordLength());
+        System.out.println("Check #2");
+      }
+    }
+    
+    return wordBank;
+  }
+  
   
 }

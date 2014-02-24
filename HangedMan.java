@@ -13,16 +13,36 @@ import java.io.FileNotFoundException;
 
 public class HangedMan
 {
+  
+  
   public static void main (String [] args) throws FileNotFoundException
   {
-    ArrayList wordBank = new ArrayList <String>();
     Dictionary D = new Dictionary();
+    Player P = new Player();
     D.makeDictionary();
-    wordBank = D.getWordBank();
-    System.out.println(D.getWord());
-    /*for (int i=0; i<wordBank.size(); i++)
+    P.wordLength();
+    D.rightLengthArray(P.getWordLength());
+    while (P.getLives() !=0)
     {
-      System.out.println(wordBank.get(i));
-    }*/ 
+      D.selectWord();
+      P.guess();
+      D.setGuess(P.getGuess());
+      D.sortAmount();
+      
+      if(D.hasWon())
+      {
+        System.out.println("Congratulations, you have won!");
+        System.out.println("The word was " + D.getWord()+".");
+      }
+    }
+    
+    System.out.println("You lose...");
+    System.out.println("Play again?");
+    
+    for (int i=0; i<5/*wordBank.size()*/; i++)    //print out all words in the arrayList
+    {
+      System.out.println(D.getWordBank().get(i));
+    }
   }
+  
 }

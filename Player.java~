@@ -1,0 +1,23 @@
+/* Hanged Man
+ * By Nicky Kyono
+ */
+
+import java.util.ArrayList;
+import java.util.Scanner;
+
+public class Player
+{
+  Scanner input = new Scanner(System.in);
+  Dictionary D = new Dictionary();
+  //ArrayList wordBank = new ArrayList <String>();
+  ArrayList wordBank = D.getWordBank();
+  
+  public int wordLength()
+  {
+    //wordBank = D.getWordBank();
+    
+    int wordLength = input.nextInt();
+    
+    return wordLength;
+  }
+}
