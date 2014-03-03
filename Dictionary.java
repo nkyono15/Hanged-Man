@@ -17,17 +17,20 @@ public class Dictionary
   private int marker = 0;
   private String guessedLetter = "";
   private int wordLength = 0;
-  private String word = "";
+  private String word;
   private String playerSees = "";
   ArrayList<ArrayList<String>> families = new ArrayList<ArrayList<String>>();
+  private boolean changeLives = false;
   
   public void selectWord()
   {
     word = wordBank.get((int)(Math.random()*wordBank.size()));
+    System.out.println("selectWord: " + word);
   }
   
   public String getWord()
   {
+    System.out.println("getWord: " + word);
     return word;
   }
   
@@ -60,6 +63,11 @@ public class Dictionary
     return wordBank;
   }
   
+  public boolean getChangeLives()
+  {
+    return changeLives;
+  }
+  
   
   //checks to see which words are the right length 
   public void rightLengthArray(int length)
@@ -73,9 +81,55 @@ public class Dictionary
     }
   }
   
+  public void split()
+  {
+    boolean withGreater = true;
+    int with = 0;
+    int without = 0;
+    for (int i = 0; i<wordBank.size(); i++)
+    {
+      for (int j = 0; j < wordLength; j++)
+      {
+        if(wordBank.get(i).substring(j,j+1).equals(guessedLetter))
+          with++;
+      }
+      without ++;
+    }
+    if (with > without)
+    {
+      withGreater = true;
+      System.out.println("with");
+    }
+    else
+    {
+      withGreater = false;
+      System.out.println("without");
+    }
+    
+    for (int i = wordBank.size(); i>0; i++)
+    {
+      for (int j = 0; j < wordLength; j++)
+      {
+        if (withGreater)
+        {
+          if(wordBank.get(i).substring(j,j+1).equals(guessedLetter))
+            j = wordLength;
+          else
+            wordBank.remove(i-1);
+        }
+        else
+        {
+          if(wordBank.get(i).substring(j,j+1).equals(guessedLetter))
+            wordBank.remove(i-1);
+          j = wordLength;
+        }
+      }
+    }
+  }
+  
+  
   public void sortAmount()
   {
-    System.out.println("Check #1");
     Player P = new Player();
     int num = 0;
     int[] letterAmount =new int[6];
@@ -108,14 +162,13 @@ public class Dictionary
      }
      }*/
     
-    System.out.println("Check #2");
     
     ArrayList<String> returnList= new ArrayList<String> (families[0]);
     
     for (int i = 0;i<5; i++)
     {
-      System.out.println("returnList: " + returnList.size());
-      System.out.println("families: " + families[i].size());
+      //System.out.println("returnList: " + returnList.size());
+      //System.out.println("families: " + families[i].size());
       if (returnList.size() < families[i].size())
       {
         for(int j = returnList.size(); j>0; j--)
@@ -130,19 +183,20 @@ public class Dictionary
       wordBank.remove(i-1);
     }
     wordBank.addAll(returnList);
-    System.out.println("returnList: " + returnList.size());
-    System.out.println("families: " + families[0].size());
+    //System.out.println("returnList: " + returnList.size());
+    //System.out.println("families: " + families[0].size());
     
-    System.out.println("wordBank: " + wordBank.size());
+    //System.out.println("wordBank: " + wordBank.size());
     
     if (returnList.equals(families[0]))
     {
       System.out.println("Nope, try again");
-      P.changeLives();
+      changeLives = true;
     }
     else
     {
       sortFamilies();
+      changeLives = false;
     }
     
     /*while (returnList.size() == 0)
@@ -215,5 +269,32 @@ public class Dictionary
     return false;
   }
   
+  /*public void forWith()
+  {
+    for (int i = wordBank.size(); i>0; i++)
+    {
+      for (int j = 0; j < wordLength; j++)
+      {
+        if(wordBank.get(i).substring(j,j+1).equals(guessedLetter))
+          j = wordLength;
+        else
+          wordBank.remove(i-1);
+      }
+      
+    }
+  }
+  
+  public void forWithout()
+  {
+    for (int i = wordBank.size(); i>0; i++)
+    {
+      for (int j = 0; j < wordLength; j++)
+      {
+        if(wordBank.get(i).substring(j,j+1).equals(guessedLetter))
+          wordBank.remove(i-1);
+        j = wordLength;
+      }
+    }
+  }*/
 }
 

@@ -25,9 +25,16 @@ public class HangedMan
     while (P.getLives() !=0)
     {
       D.selectWord();
+      P.getTheWord(D.getWord());
+      System.out.println(P.display());
       P.guess();
       D.setGuess(P.getGuess());
+      D.split();
       D.sortAmount();
+      P.changeLives(D.getChangeLives());
+      System.out.println("Lives: " + P.getLives());
+      System.out.println("wordBank: " + D.getWordBank().size());
+      
       
       if(D.hasWon())
       {
