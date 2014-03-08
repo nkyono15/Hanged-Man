@@ -21,15 +21,28 @@ public class HangedMan
     Player P = new Player();
     D.makeDictionary();
     P.wordLength();
-    D.rightLengthArray(P.getWordLength());
+    D.setWordLength(P.getWordLength());
+    D.rightLengthArray();
+    
+    int counter = 0;
     while (P.getLives() !=0)
+    //while (counter < 3)
     {
       D.selectWord();
       P.getTheWord(D.getWord());
-      System.out.println(P.display());
+      P.display();
+      System.out.println(P.getDisplayed());
+      D.setDisplayed(P.getDisplayed());
       P.guess();
       D.setGuess(P.getGuess());
       D.split();
+      D.sortAmount();
+      D.correctPlacement();
+      P.changeLives(D.getChangeLives());
+      System.out.println("Lives: " + P.getLives());
+      System.out.println("wordBank: " + D.getWordBank().size());
+      //counter++;
+      
       
       if(D.hasWon())
       {
@@ -41,7 +54,7 @@ public class HangedMan
     System.out.println("You lose...");
     System.out.println("Play again?");
     
-    for (int i=0; i<5/*wordBank.size()*/; i++)    //print out all words in the arrayList
+    for (int i=0; i<50/*wordBank.size()*/; i++)    //print out all words in the arrayList
     {
       System.out.println(D.getWordBank().get(i));
     }

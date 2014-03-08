@@ -17,38 +17,46 @@ public class HangedMan
   
   public static void main (String [] args) throws FileNotFoundException
   {
+    boolean hasWon = false;
     Dictionary D = new Dictionary();
     Player P = new Player();
     D.makeDictionary();
     P.wordLength();
-    D.rightLengthArray(P.getWordLength());
-    while (P.getLives() !=0)
+    D.setWordLength(P.getWordLength());
+    D.rightLengthArray();
+    
+    int counter = 0;
+    while (D.getLives() !=0 && hasWon == false)
+    //while (counter < 3)
     {
-      D.selectWord();
-      P.getTheWord(D.getWord());
-      System.out.println(P.display());
-      P.guess();
-      D.setGuess(P.getGuess());
-      D.split();
-      D.sortAmount();
-      P.changeLives(D.getChangeLives());
-      System.out.println("Lives: " + P.getLives());
-      System.out.println("wordBank: " + D.getWordBank().size());
-      
-      
       if(D.hasWon())
       {
+        hasWon = true;
         System.out.println("Congratulations, you have won!");
         System.out.println("The word was " + D.getWord()+".");
       }
+      D.selectWord();
+      P.getTheWord(D.getWord());
+      P.display();
+      System.out.println(P.getDisplayed());
+      D.setDisplayed(P.getDisplayed());
+      P.guess();
+      System.out.println("guessed: " + P.getAllGuesses());
+      D.setGuess(P.getGuess());
+      D.split();
+      D.sortAmount();
+      D.correctPlacement();
+      System.out.println("Lives: " + D.getLives());
+      //System.out.println("wordBank: " + D.getWordBank().size());
+      D.setDisplayed(P.getDisplayed());
+      //counter++;
     }
     
+    if (D.getLives() == 0)
+    {
     System.out.println("You lose...");
     System.out.println("Play again?");
-    
-    for (int i=0; i<5/*wordBank.size()*/; i++)    //print out all words in the arrayList
-    {
-      System.out.println(D.getWordBank().get(i));
+    System.out.println("The word was " + D.getWord() + ".");
     }
   }
   

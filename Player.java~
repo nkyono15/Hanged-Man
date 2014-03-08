@@ -47,6 +47,11 @@ public class Player
     word = w; 
   }
   
+  public String getDisplayed()
+  {
+    return displayed;
+  }
+  
   public void guess()
   {
     System.out.println("Next guess: ");
@@ -77,9 +82,10 @@ public class Player
     System.out.println("guessed: " + guessed);
   }
   
-  public void changeLives()
+  public void changeLives(boolean change)
   {
-    lives =- 1;
+    if(change)
+      lives--;
   }
   
   public int getLives()
@@ -87,7 +93,7 @@ public class Player
     return lives;
   }
   
-  public String display()
+  public void display()
   {
     System.out.println("word: " + word);
     System.out.println("guessed: " + guessed);
@@ -105,9 +111,9 @@ public class Player
             //System.out.print(guessed.substring(j,j+1));
             // -----
             // --a
-            System.out.println("displayed: " + displayed + " i: " + i + " j: " + j);
+            //System.out.println("displayed: " + displayed + " i: " + i + " j: " + j);
             displayed = displayed.substring(0,i) + guessed.substring(j,j+1) + displayed.substring(i+1,displayed.length());
-            System.out.println("displayed: " + displayed + " i: " + i + " j: " + j);
+            //System.out.println("displayed: " + displayed + " i: " + i + " j: " + j);
             //displayed.substring(i,i+1) = (guessed.substring(j,j+1));  
             //displayed = displayed+ guessed;
             //j = guessed.length();
@@ -128,7 +134,5 @@ public class Player
       }
       //System.out.println(i);
     }
-    
-    return displayed;
   }
 }

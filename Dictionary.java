@@ -18,19 +18,25 @@ public class Dictionary
   private String guessedLetter = "";
   private int wordLength = 0;
   private String word;
-  private String playerSees = "";
   ArrayList<ArrayList<String>> families = new ArrayList<ArrayList<String>>();
-  private boolean changeLives = false;
+  private String displayed = "";
+  private int lives = 10;
+  
+  
+  public int getLives()
+  {
+    return lives;
+  }
   
   public void selectWord()
   {
     word = wordBank.get((int)(Math.random()*wordBank.size()));
-    System.out.println("selectWord: " + word);
+    //System.out.println("selectWord: " + word);
   }
   
   public String getWord()
   {
-    System.out.println("getWord: " + word);
+    //System.out.println("getWord: " + word);
     return word;
   }
   
@@ -39,10 +45,14 @@ public class Dictionary
     guessedLetter = guess;
   }
   
-  public void getWordLength()
+  public void setWordLength(int wordL)
   {
-    Player P = new Player();
-    wordLength = P.getWordLength();
+    wordLength = wordL;
+  }
+  
+  public void setDisplayed(String display)
+  {
+    displayed = display;
   }
   
   //method that takes the file and puts each line into an array
@@ -63,18 +73,14 @@ public class Dictionary
     return wordBank;
   }
   
-  public boolean getChangeLives()
-  {
-    return changeLives;
-  }
   
   
   //checks to see which words are the right length 
-  public void rightLengthArray(int length)
+  public void rightLengthArray()
   {  
     for (int i = wordBank.size(); i > 0 ; i--)
     {
-      if (wordBank.get(i-1).length() != length)
+      if (wordBank.get(i-1).length() != wordLength)
       {
         wordBank.remove(i-1);
       }
@@ -83,54 +89,56 @@ public class Dictionary
   
   public void split()
   {
-    boolean withGreater = true;
-    int with = 0;
-    int without = 0;
-    for (int i = 0; i<wordBank.size(); i++)
+    boolean with = false;
+    if ((int)(Math.random()*2) == 0)
+    {
+      with = true;
+    }
+    boolean has = false;
+    
+    ArrayList <String> clone = new ArrayList<String>();
+    clone.addAll(wordBank); 
+    
+    for (int i = clone.size()-1; i>-1; i--)
     {
       for (int j = 0; j < wordLength; j++)
       {
-        if(wordBank.get(i).substring(j,j+1).equals(guessedLetter))
-          with++;
+        if (clone.get(i).substring(j,j+1).equals(guessedLetter))
+          has = true;
       }
-      without ++;
-    }
-    if (with > without)
-    {
-      withGreater = true;
-      System.out.println("with");
-    }
-    else
-    {
-      withGreater = false;
-      System.out.println("without");
+      if ((has == true && with == false) || (has == false && with == true))
+      {
+        clone.remove(i);
+      }
+      has = false;
     }
     
-    for (int i = wordBank.size(); i>0; i++)
+    if (clone.size() == 0)
+      with = !with;
+    
+    for (int i = wordBank.size()-1; i>-1; i--)
     {
       for (int j = 0; j < wordLength; j++)
       {
-        if (withGreater)
-        {
-          if(wordBank.get(i).substring(j,j+1).equals(guessedLetter))
-            j = wordLength;
-          else
-            wordBank.remove(i-1);
-        }
-        else
-        {
-          if(wordBank.get(i).substring(j,j+1).equals(guessedLetter))
-            wordBank.remove(i-1);
-          j = wordLength;
-        }
+        if (wordBank.get(i).substring(j,j+1).equals(guessedLetter))
+          has = true;
       }
+      if ((has == true && with == false) || (has == false && with == true))
+      {
+        wordBank.remove(i);
+      }
+      has = false;
+    }
+    
+    if (with == false)
+    {
+      lives--;
     }
   }
   
   
   public void sortAmount()
   {
-    Player P = new Player();
     int num = 0;
     int[] letterAmount =new int[6];
     ArrayList[] families = new ArrayList[6];
@@ -151,61 +159,58 @@ public class Dictionary
         }
       }
     }
-    
-    
-    
-    /*for(int i=0; i<7; i++)
-     {
-     if(families[i].size() == 0)
-     {
-     P.changeLives();
-     }
-     }*/
-    
-    
-    ArrayList<String> returnList= new ArrayList<String> (families[0]);
-    
-    for (int i = 0;i<5; i++)
+    /*for(int i=0;i<5;i++)
     {
-      //System.out.println("returnList: " + returnList.size());
-      //System.out.println("families: " + families[i].size());
-      if (returnList.size() < families[i].size())
+      System.out.println("Family " + i + " : " + families[i].size());
+    }*/
+    
+    int which = ((int)(Math.random()*5));
+    //System.out.println("which: " + which);
+    int size = families[which].size();
+    
+    if (size > 5)
+    {
+      for(int i = wordBank.size(); i>0; i--)
       {
-        for(int j = returnList.size(); j>0; j--)
-        {
-          returnList.remove(j-1);
-        }
-        returnList.addAll(families[i]);
+        wordBank.remove(i-1);
       }
+      wordBank.addAll(families[which]);
+      //System.out.println("random wordBank: " + wordBank.size());
     }
-    for(int i = wordBank.size(); i>0; i--)
-    {
-      wordBank.remove(i-1);
-    }
-    wordBank.addAll(returnList);
-    //System.out.println("returnList: " + returnList.size());
-    //System.out.println("families: " + families[0].size());
-    
-    //System.out.println("wordBank: " + wordBank.size());
-    
-    if (returnList.equals(families[0]))
-    {
-      System.out.println("Nope, try again");
-      changeLives = true;
-    }
-    else
-    {
-      sortFamilies();
-      changeLives = false;
-    }
-    
-    /*while (returnList.size() == 0)
-     {
-     returnList.equals(families[(int)(Math.random()*7)]);
-     }*/
-    
-    //return  families[(Math.random()*7)];
   }
+  
+  
+  public void correctPlacement()
+  {
+    for (int i = wordBank.size()-1; i>0; i--)
+    {
+      for (int j = 0; j < wordLength; j++)
+      {
+        if (displayed.substring(j,j+1).equals("-"))
+        {
+          //System.out.println(wordBank.get(i));
+          //System.out.print("-");
+        }
+        else if ((displayed.substring(j,j+1).equals(wordBank.get(i).substring(j,j+1))))
+        {
+          //System.out.println(displayed.substring(j,j+1) + wordBank.get(i).substring(j,j+1));
+          //System.out.println(wordBank.get(i));
+          //System.out.print("equaled");
+        }
+        else
+        {
+          //System.out.print("else");
+          wordBank.remove(i);
+          j = wordLength;
+        }
+        
+        
+      }
+      
+    }
+  }
+  
+  
   
   public void sortFamilies()
   {
@@ -216,26 +221,14 @@ public class Dictionary
       places[marker] = word.indexOf(guessedLetter, i+1);
       marker ++;
     }  
-    for(int i=0;i<wordBank.size();i++)
+    /*for(int i=0;i<wordBank.size();i++)
     {
       
     }
-    wordBank.remove(0);
+    wordBank.remove(0);*/ 
     
     
   }
-  
-  /*public void selectFam()
-   {
-   wordBank.equals(families.get(0));
-   for (int i = 0;i<families.size(); i++)
-   {
-   if (wordBank.size() < families.get(i).size())
-   {
-   wordBank.equals(families.get(i));
-   }
-   }
-   }*/
   
   
   public int howMany(String word, String letter)
@@ -247,54 +240,15 @@ public class Dictionary
     }  
     return numberLetter;
   }
-  
-  /*public int seperate (String word)
-   {
-   String nums = "0123456";
-   for (i = 0; i < word.length(); i++)
-   {
-   if (word.substring(word.length()-1, word.length()) == nums.substring(nums[i], nums[i+1]))
-   {
-   return i;
-   }
-   }
-   }   Failed Idea */
-  
+
   public boolean hasWon()
   {
-    if (playerSees.equals(word))
+    //System.out.println(displayed);
+    if (displayed.equals(word))
     {
       return true;
     }
     return false;
   }
-  
-  /*public void forWith()
-  {
-    for (int i = wordBank.size(); i>0; i++)
-    {
-      for (int j = 0; j < wordLength; j++)
-      {
-        if(wordBank.get(i).substring(j,j+1).equals(guessedLetter))
-          j = wordLength;
-        else
-          wordBank.remove(i-1);
-      }
-      
-    }
-  }
-  
-  public void forWithout()
-  {
-    for (int i = wordBank.size(); i>0; i++)
-    {
-      for (int j = 0; j < wordLength; j++)
-      {
-        if(wordBank.get(i).substring(j,j+1).equals(guessedLetter))
-          wordBank.remove(i-1);
-        j = wordLength;
-      }
-    }
-  }*/
 }
 
