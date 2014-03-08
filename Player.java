@@ -20,12 +20,13 @@ public class Player
   
   public void wordLength()
   {
-    System.out.println("Word length: ");
+    System.out.println("Valid lengths are: 2-25 and 28");
+    System.out.println("Please enter a word length: ");
     wLength = input.nextInt(); 
     if (wLength < 2 || wLength == 26 || wLength == 27 || wLength > 28)
     {
       System.out.println("invalid length");
-      System.out.println("try again: ");
+      System.out.println("try again ");
       wordLength(); 
     }
   }

@@ -21,6 +21,12 @@ public class HangedMan
     Dictionary D = new Dictionary();
     Player P = new Player();
     D.makeDictionary();
+    
+    System.out.println("EVIL HANGMAN");
+    System.out.println("By Nicky Kyono");
+    System.out.println("Have fun!");
+    System.out.println();
+    
     P.wordLength();
     D.setWordLength(P.getWordLength());
     D.rightLengthArray();
