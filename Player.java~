@@ -14,19 +14,19 @@ public class Player
   
   private String playerGuess = null;
   private String guessed = "";
-  private int lives = 13;
   private int wLength = 0;
   private String word = "";
   private String displayed = "";
   
   public void wordLength()
   {
-    System.out.println("Word length: ");
+    System.out.println("Valid lengths are: 2-25 and 28");
+    System.out.println("Please enter a word length: ");
     wLength = input.nextInt(); 
     if (wLength < 2 || wLength == 26 || wLength == 27 || wLength > 28)
     {
       System.out.println("invalid length");
-      System.out.println("try again: ");
+      System.out.println("try again ");
       wordLength(); 
     }
   }
@@ -39,6 +39,11 @@ public class Player
   public String getGuess()
   {
     return playerGuess;
+  }
+  
+  public String getAllGuesses()
+  {
+    return guessed;
   }
   
   public void getTheWord(String w)
@@ -61,7 +66,25 @@ public class Player
   
   public void guessCheck(String primGuess)
   {
-    System.out.println("primGuess: " + primGuess);
+    String alpha = "abcdefghijklmnopqrstuvwxyz";
+    boolean letter = false;
+    
+    for (int i = 0; i < alpha.length(); i++)
+    {
+      if ((primGuess.equals(alpha.substring(i,i+1))) == true)
+      {
+        letter = true;
+      }
+    }
+    
+    if (letter == false)
+    {
+      System.out.println("Invaild guess");
+      System.out.println("Please try again.");
+      primGuess = "";
+      guess();
+    }
+    
     if (primGuess.length() == 1)
     {
       for (int i=0; i<guessed.length(); i++)
@@ -69,63 +92,32 @@ public class Player
         if (primGuess.equalsIgnoreCase(guessed.substring(i , i+1)))
         {
           System.out.println("Invaild guess");
+          System.out.println("Please try again.");
+          primGuess = "";
           guess();
         }
       }
     }
-    else
-    {
-      System.out.println("Please try again.");
-      guess();
-    }
+    
     guessed = guessed + primGuess;
-    System.out.println("guessed: " + guessed);
   }
   
-  public void changeLives(boolean change)
-  {
-    if(change)
-      lives--;
-  }
-  
-  public int getLives()
-  {
-    return lives;
-  }
   
   public void display()
   {
-    System.out.println("word: " + word);
-    System.out.println("guessed: " + guessed);
-    System.out.println("wLength: " + wLength);
+    //System.out.println("word: " + word);
+    //System.out.println("guessed: " + guessed);
+    //System.out.println("wLength: " + wLength);
     for (int i = 0; i<wLength; i++)
     {
       if (guessed.length() > 0)
       {
         for (int j = 0; j<guessed.length(); j++)
         {
-          //System.out.println(guessed.length());
-          //System.out.println(word.substring(i,i+1));
           if (word.substring(i,i+1).equals(guessed.substring(j,j+1)))
           {
-            //System.out.print(guessed.substring(j,j+1));
-            // -----
-            // --a
-            //System.out.println("displayed: " + displayed + " i: " + i + " j: " + j);
             displayed = displayed.substring(0,i) + guessed.substring(j,j+1) + displayed.substring(i+1,displayed.length());
-            //System.out.println("displayed: " + displayed + " i: " + i + " j: " + j);
-            //displayed.substring(i,i+1) = (guessed.substring(j,j+1));  
-            //displayed = displayed+ guessed;
-            //j = guessed.length();
           }
-          else
-          {
-            //System.out.print("-");
-            //displayed = displayed + "-";
-            //j = guessed.length();
-          }
-          
-          //System.out.println(word.substring(i,i+1).equals(guessed.substring(j,j+1)));
         }
       }
       else
