@@ -64,8 +64,9 @@ public class Player
   //ask for guess and then calls for the checker
   public void guess()
   {
-    System.out.println("Next guess: ");
+    System.out.println("Next guess (letter): ");
     playerGuess = input.next();
+    playerGuess = playerGuess.toLowerCase();
     guessCheck(playerGuess);
   }
   
@@ -79,7 +80,7 @@ public class Player
     //makes sure the guess is actually in the alphabet
     for (int i = 0; i < alpha.length(); i++)
     {
-      if ((primGuess.equals(alpha.substring(i,i+1))) == true)
+      if ((primGuess.equalsIgnoreCase(alpha.substring(i,i+1))) == true)
       {
         letter = true;
       }
